@@ -33,19 +33,31 @@ public class Encoder {
 
     private char encodeSymbols(int symbol, int key) {
         key = trimKey(key);
-        if (isLetter(symbol)) {
+        if (isSmallLetter(symbol)) {
             int encoded = symbol + key;
-            return (char) returnCarriageIfNeeded(encoded);
+            return (char) returnCarriageIfNeededSmallLetter(encoded);
+        }
+        if (isCapitalLetter(symbol)) {
+            int encoded = symbol + key;
+            return (char) returnCarriageIfNeededCapitalLetter(encoded);
         }
         return (char) symbol;
     }
 
-    private int returnCarriageIfNeeded(int encoded) {
-        return isLetter(encoded) ? encoded : (encoded - 26);
+    private int returnCarriageIfNeededSmallLetter(int encoded) {
+        return isSmallLetter(encoded) ? encoded : (encoded - 26);
     }
 
-    private boolean isLetter(int c) {
-        return c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z';
+    private int returnCarriageIfNeededCapitalLetter(int encoded) {
+        return isCapitalLetter(encoded) ? encoded : (encoded - 26);
+    }
+
+    private boolean isSmallLetter(int c) {
+        return c >= 'a' && c <= 'z';
+    }
+
+    private boolean isCapitalLetter(int c) {
+        return c >= 'A' && c <= 'Z';
     }
 
     private int trimKey(int key) {
